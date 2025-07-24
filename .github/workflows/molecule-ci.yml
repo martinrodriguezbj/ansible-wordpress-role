@@ -22,7 +22,10 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install molecule[docker] ansible ansible-lint docker
+          pip install ansible ansible-lint molecule molecule-plugins[docker] docker
+
+      - name: Check Docker version
+        run: docker --version
 
       - name: Run ansible-lint
         run: ansible-lint .
