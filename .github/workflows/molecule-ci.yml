@@ -25,7 +25,7 @@ jobs:
           pip install molecule[docker] ansible ansible-lint docker
 
       - name: Run ansible-lint
-        run: ansible-lint site.yml
+        run: ansible-lint .
 
       - name: Run Molecule tests step by step
         run: |
