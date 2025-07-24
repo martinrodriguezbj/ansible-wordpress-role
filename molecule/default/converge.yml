@@ -1,0 +1,7 @@
+---
+- name: Converge
+  hosts: all
+  gather_facts: true    # ¡IMPORTANTE!
+  become: true
+  roles:
+    - wordpress

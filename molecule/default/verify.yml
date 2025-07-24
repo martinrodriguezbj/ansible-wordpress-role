@@ -1,0 +1,52 @@
+---
+- name: Verificar role de instalación de WordPress
+  hosts: all
+  become: yes
+  gather_facts: true
+  vars:
+    wp_install_dir: /var/www/html/wordpress
+    web_user: www-data
+
+  tasks:
+    - name: Verificar que el directorio de WordPress existe
+      stat:
+        path: "{{ wp_install_dir }}"
+      register: wp_dir
+
+    - name: Asegurar que el directorio de WordPress fue creado
+      assert:
+        that:
+          - wp_dir.stat.exists
+          - wp_dir.stat.isdir
+
+    - name: Verificar que el archivo index.php existe
+      stat:
+        path: "{{ wp_install_dir }}/index.php"
+      register: index_php
+
+    - name: Verificar que index.php fue desplegado
+      assert:
+        that:
+          - index_php.stat.exists
+
+    - name: Verificar que wp-config.php existe
+      stat:
+        path: "{{ wp_install_dir }}/wp-config.php"
+      register: wp_config
+
+    - name: Asegurar que wp-config.php fue creado desde plantilla
+      assert:
+        that:
+          - wp_config.stat.exists
+          - wp_config.stat.mode == "0644"
+
+    - name: Verificar que el servicio web está en ejecución
+      service_facts:
+
+    - name: Verificar que apache2 o httpd esté activo
+      assert:
+        that:
+          - >
+            ('apache2.service' in ansible_facts.services and ansible_facts.services['apache2.service'].state == 'running')
+            or
+            ('httpd.service' in ansible_facts.services and ansible_facts.services['httpd.service'].state == 'running')
