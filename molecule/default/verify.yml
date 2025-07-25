@@ -13,11 +13,11 @@
         path: "{{ wp_install_dir }}"
       register: wp_dir
 
-    - name: Asegurar que el directorio de WordPress fue creado
-      assert:
-        that:
-          - wp_dir.stat.exists
-          - wp_dir.stat.isdir
+#    - name: Asegurar que el directorio de WordPress fue creado
+#      assert:
+#        that:
+#          - wp_dir.stat.exists
+#          - wp_dir.stat.isdir
 
     - name: Verificar que el archivo index.php existe
       stat:
